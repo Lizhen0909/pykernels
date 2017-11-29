@@ -66,12 +66,13 @@ class TestGraphletCreation(unittest.TestCase):
         return True
 
     def test3GraphletsCreation(self):
-        gr3 = allgraphlets._generate_graphlets(3, None)
+        gr3 = allgraphlets._generate_graphlets(3 )
         self.assertTrue(gr3.shape[0] == 4)
         self.assertTrue(self._contains_values(self.all_3_graphlets, gr3))
 
     def test4GraphletsCreation(self):
-        gr4 = allgraphlets._generate_graphlets(4, self.all_3_graphlets)
+        #gr4 = allgraphlets._generate_graphlets(4, self.all_3_graphlets)
+        gr4 = allgraphlets._generate_graphlets(4)
         self.assertTrue(gr4.shape[0] == 11)
 
 class TestRelabel(unittest.TestCase):
@@ -89,4 +90,4 @@ class TestRelabel(unittest.TestCase):
 
     def testRelabel(self):
         for i, data in enumerate(self.data):
-          self.assertTrue((relabel(data) == self.answers[i]).all())
+          self.assertTrue((relabel(data,data) == self.answers[i]).all())

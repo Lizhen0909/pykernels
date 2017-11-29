@@ -53,13 +53,14 @@ class ShortestPath(GraphKernel):
         """
         res = lil_matrix(
             np.zeros((len(shortest_paths),
-                      (maxpath + 1) * numlabels * (numlabels + 1) / 2)))
+                      int(maxpath + 1) * numlabels * (numlabels + 1) / 2)))
         for i, s in enumerate(shortest_paths):
             labels = labels_t[i]
             labels_aux = matlib.repmat(labels, 1, len(labels))
             min_lab = np.minimum(labels_aux.T, labels_aux)
             max_lab = np.maximum(labels_aux.T, labels_aux)
             subsetter = np.triu(~(np.isinf(s)))
+	    print min_lab.shape,subsetter.shape
             min_lab = min_lab[subsetter]
             max_lab = max_lab[subsetter]
             ind = s[subsetter] * numlabels * (numlabels + 1) / 2 + \
@@ -75,12 +76,13 @@ class ShortestPath(GraphKernel):
         Construct accumulation array matrix for one dataset
         containing unlabaled graph data.
         """
-        res = lil_matrix(np.zeros((len(shortest_paths), maxpath+1)))
+	#print maxpath, type(maxpath)
+        res = lil_matrix(np.zeros((len(shortest_paths), int(maxpath)+1)))
         for i, s in enumerate(shortest_paths):
             subsetter = np.triu(~(np.isinf(s)))
             ind = s[subsetter]
-            accum = np.zeros(maxpath + 1)
-            accum[:ind.max() + 1] += np.bincount(ind.astype(int))
+            accum = np.zeros(int(maxpath) + 1)
+            accum[:ind.astype(int).max() + 1] += np.bincount(ind.astype(int))
             res[i] = lil_matrix(accum)
         return res
 

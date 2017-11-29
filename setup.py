@@ -35,6 +35,9 @@ if __name__ == "__main__":
             'Topic :: Scientific/Engineering :: Information Analysis',
         ],
 
+	test_suite='nose.collector',
+	tests_require=['nose'],
+
         zip_safe=True,
         include_package_data=True,
     )
